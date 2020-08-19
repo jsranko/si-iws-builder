@@ -17,7 +17,7 @@ public class App {
 
 		//System.out.println(swagger.toString());
 		
-		String location = new String("resources\\SIIIA.iwss");
+		String location = new String(args[0]);
 		IWSS iwss = new IWSS();
 		try {
 			iwss = new IWSSParser().read(location);
@@ -27,7 +27,22 @@ public class App {
 		}
 		
 		IWS iws = new IWS();
-		System.out.println(iws.createWebServicesServer(iwss.getServer()));
+		System.out.println("xxxxxxx");
+		int exitcode;
+		exitcode = iws.stopWebServicesServer(iwss.getServer());
+		System.out.println("stopWebServicesServer:".concat(String.valueOf(exitcode)));
+		exitcode = iws.createWebServicesServer(iwss.getServer());
+		System.out.println("createWebServicesServer:".concat(String.valueOf(exitcode)));
+		//if (exitcode == 0) {
+			exitcode = iws.startWebServicesServer(iwss.getServer());
+			System.out.println("startWebServicesServer:".concat(String.valueOf(exitcode)));
+		//}
+			 
+		for (IWSService service : iwss.getServices()) {
+			exitcode = iws.installWebService(iwss.getServer(), service);
+			System.out.println("installWebService:".concat(String.valueOf(exitcode)));
+		}
+
 		
 	}
 }
