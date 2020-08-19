@@ -1,0 +1,54 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "SIROUTER APIs",
+    "description": "APIs available for SIROUTER",
+    "version": "1.0.0"
+  },
+  "host": "p1309-pvm1.cecc.ihost.com:16797",
+  "schemes": [ "http" ],
+  "basePath": "/web/services/SIROUTER",
+  "tags": [
+    {
+      "name": "SIROUTER APIs",
+      "description": "APIs available for SIROUTER"
+    }
+  ],
+  "definitions": {},
+  "paths": {
+    "/null": {
+      "get": {
+        "tags": [
+          "SIROUTER APIs"
+        ],
+        "operationId": "SIROUTER",
+        "consumes": [
+          "application/json"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "maxLength": 8000000
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "string",
+              "maxLength": 8000000
+            }
+          }
+        }
+      }
+    }
+  }
+}
