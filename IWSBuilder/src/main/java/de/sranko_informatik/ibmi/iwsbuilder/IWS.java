@@ -1,68 +1,73 @@
 package de.sranko_informatik.ibmi.iwsbuilder;
 
-import java.io.File;
 import java.io.IOException;
-import java.io.PrintStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.IOUtils;
-
 public class IWS {
 	
+	private IWSServer server;
 	private String shellPath = new String("/QIBM/ProdData/OS/WebServices/bin");
 	private String createWebServicesServer = new String("createWebServicesServer.sh");
 	private String startWebServicesServer = new String("startWebServicesServer.sh");
 	private String installWebService = new String("installWebService.sh");
 	private String stopWebServicesServer = new String("stopWebServicesServer.sh");
 	private String deleteWebServicesServer = new String("deleteWebServicesServer.sh");
+	private String getWebServicesServerProperties = new String("getWebServicesServerProperties.sh");
+
+	public IWS(IWSServer server) {
+		super();
+		this.server = server;
+	}
 	
-	public int createWebServicesServer(IWSServer server) {
+	public IWSServer getServer() {
+		return server;
+	}
+
+	public void setServer(IWSServer server) {
+		this.server = server;
+	}
+
+	
+	public PaseCommand createWebServicesServer() throws IOException, InterruptedException {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, createWebServicesServer));
 		command.add("-server");
-		command.add(server.name);
+		command.add(this.server.name);
 		command.add("-startingPort");
 		command.add(String.valueOf(server.port));
 		command.add("-userid");
-		command.add(server.userId);
+		command.add(this.server.userId);
 		command.add("-version");
-		command.add(server.version);
+		command.add(this.server.version);
 		
-		System.out.println(command);
+		PaseCommand pase = new PaseCommand();
+		pase.run(command);
 		
-		try {
-			return runCommand(command);
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		return -1;
+		return pase;	
 	}
 	
-	public int startWebServicesServer(IWSServer server) {
+	public PaseCommand startWebServicesServer() throws IOException, InterruptedException {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, startWebServicesServer));
 		command.add("-server");
-		command.add(server.name);
+		command.add(this.server.name);
 
-		System.out.println(command);
+		PaseCommand pase = new PaseCommand();
+		pase.run(command);
 		
-		try {
-			return runCommand(command);
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		return -1;
+		return pase;	
 	}
 	
-	public int installWebService(IWSServer server, IWSService service) {
+	public PaseCommand installWebService(IWSService service) throws IOException, InterruptedException {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, installWebService));
 		command.add("-server");
-		command.add(server.name);
+		command.add(this.server.name);
 		command.add("-programObject");
 		command.add(service.getProgramObject());
 		command.add("-service");
@@ -94,78 +99,60 @@ public class IWS {
 		if (service.isUseParamNameAsElementName()) {
 			command.add("-useParamNameAsElementName");
 		}		
-		if (server.isPrintErrorDetails()) {
+		if (this.server.isPrintErrorDetails()) {
 			command.add("-printErrorDetails");
 		}
 		
-		System.out.println(command);
+		PaseCommand pase = new PaseCommand();
+		pase.run(command);
 		
-		try {
-			return runCommand(command);
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		return -1;
+		return pase;	
 	}
 	
-	public int stopWebServicesServer(IWSServer server) {
+	public PaseCommand stopWebServicesServer() throws IOException, InterruptedException {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, stopWebServicesServer));
 		command.add("-server");
-		command.add(server.name);
+		command.add(this.server.name);
 
-		System.out.println(command);
+		PaseCommand pase = new PaseCommand();
+		pase.run(command);
 		
-		try {
-			return runCommand(command);
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		return -1;
-		
+		return pase;	
 	}	
 	
-	public int deleteWebServicesServer(IWSServer server) {
+	public PaseCommand deleteWebServicesServer() throws IOException, InterruptedException {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, deleteWebServicesServer));
 		command.add("-server");
-		command.add(server.name);
+		command.add(this.server.name);
 		if (server.isPrintErrorDetails()) {
 			command.add("-printErrorDetails");
 		}
 
-
-		System.out.println(command);
+		PaseCommand pase = new PaseCommand();
+		pase.run(command);
 		
-		try {
-			return runCommand(command);
-		} catch (IOException | InterruptedException e) {
-			e.printStackTrace();
-		}
-		return -1;
-		
+		return pase;	
 	}	
 	
-	@SuppressWarnings("deprecation")
-	public int runCommand(List<String> command) throws IOException, InterruptedException {
+	public PaseCommand getWebServicesServerProperties() throws IOException, InterruptedException {
 		
-		ProcessBuilder builder = new ProcessBuilder(command);
-		//builder.directory(new File(shellPath));
+		List<String> command = new ArrayList<>();
+		command.add(String.format("%s/%s", shellPath, getWebServicesServerProperties));
+		command.add("-server");
+		command.add(this.server.name);
+		if (this.server.isPrintErrorDetails()) {
+			command.add("-printErrorDetails");
+		}
+
+		PaseCommand pase = new PaseCommand();
+		pase.run(command);
 		
-		Process process = builder.start();
-		
-		int exit = process.waitFor();
-		
-		builder.redirectOutput();
-		
-		System.out.println("------------------- Error -------------------------");
-		System.out.println(IOUtils.toString(process.getErrorStream()));
-		System.out.println("------------------- Output -------------------------");
-		System.out.println(IOUtils.toString(process.getInputStream()));
-		
-		return exit;
-		
+		return pase;		
 	}		
+	
+	
 }
