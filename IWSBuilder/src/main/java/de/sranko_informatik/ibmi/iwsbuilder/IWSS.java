@@ -49,10 +49,12 @@ public class IWSS {
 			pathURI = path.getValue();
 			
 			for(Operation operation : pathURI.getOperations()){
-				//operation.op
-				if (operation.getOperationId() == "GET") {
+
+				IWSResponse iwssResponse = getResponse(path.getKey(), operation.getOperationId());
+				
+				if (iwssResponse != null) {
 					
-					Map<String, Response> responses = updateResponses(operation.getResponses());
+					Map<String, Response> responses = updateResponses(operation.getResponses(), iwssResponse);
 					operation.setResponses(responses);
 					pathURI.setGet(operation);			
 					paths.put(path.getKey(), pathURI);
@@ -65,17 +67,21 @@ public class IWSS {
 		return paths;
 		
 	}
-	private Map<String, Response> updateResponses(Map<String, Response> responses) {
+	private Map<String, Response> updateResponses(Map<String, Response> responses, IWSResponse iwssResponse) {
 		
 		for (Map.Entry<String, Response> entry : responses.entrySet()) {
 			if (entry.getKey() == "200") {
-				Response response = entry.getValue();
-				response.setDescription("x");
-				responses.put("200", response);
+				Response resp = entry.getValue();
+				resp.setDescription("x");
+				responses.put("200", resp);
 			}
 		    System.out.println(entry.getKey() + "/" + entry.getValue().getDescription());
 		}
 		return responses;
+		
+	}
+	private IWSResponse getResponse(String path, String operation) {
+		return null;
 		
 	}
 }
