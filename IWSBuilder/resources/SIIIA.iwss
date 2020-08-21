@@ -21,7 +21,7 @@
 			"transportMetadata": "REMOTE_ADDR:REMOTE_USER:REQUEST_METHOD:REQUEST_URL:REQUEST_URI:QUERY_STRING:SERVER_NAME:SERVER_PORT",
 			"transportHeaders": null,
 			"useParamNameAsElementName": false,
-			"methods": [
+			"properties": [
 				{
 					"SIROUTER.uri.path.template": null,
 					"SIROUTER.http.request.method": "GET",
@@ -34,7 +34,14 @@
 					"SIROUTER.PAYLOADIN.usage": "input",
 					"SIROUTER.PAYLOADOUT.usage": "output",
 					"SIROUTER.RESPONSECODE.usage": "output",
-					"SIROUTER.RESPONSEHEADERS.usage": "output"
+					"SIROUTER.RESPONSEHEADERS.usage": "output",
+					"responses" : [
+						{
+							"200": {
+           						"description": "Successful operation"
+            				}
+            			}
+            		]
 				}
 			],
 			"script" : [

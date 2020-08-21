@@ -1,13 +1,15 @@
 package de.sranko_informatik.ibmi.iwsbuilder;
 
 import java.util.HashMap;
+import java.util.List;
 
-public class IWSMethode {
+public class IWSProperties {
 
 	protected HashMap<String, String> attributes;
+	protected List<IWSResponse> responses;
 
 	
-	public IWSMethode() {
+	public IWSProperties() {
 		super();
 		this.attributes = new HashMap<String, String>();
 	}	
@@ -22,5 +24,17 @@ public class IWSMethode {
 	
 	public void addAttributes(String attribute, String attributeValue) {
 		this.attributes.put(attribute, attributeValue);
+	}
+
+	public List<IWSResponse> getResponses() {
+		return responses;
+	}
+
+	public void setResponses(List<IWSResponse> responses) {
+		this.responses = responses;
 	}	
+	
+	public void addResponses(IWSResponse response) {
+		this.responses.add(response);
+	}		
 }

@@ -17,12 +17,12 @@ public class IWSService {
 	protected String transportMetadata;
 	protected String transportHeaders;
 	protected boolean useParamNameAsElementName;
-	protected List<IWSMethode> methods;
+	protected List<IWSProperties> properties;
 	
 	
 	public IWSService() {
 		super();
-		this.methods = new ArrayList<IWSMethode>();
+		this.properties = new ArrayList<IWSProperties>();
 	}
 	public String getName() {
 		return name;
@@ -102,13 +102,13 @@ public class IWSService {
 	public void setUseParamNameAsElementName(boolean useParamNameAsElementName) {
 		this.useParamNameAsElementName = useParamNameAsElementName;
 	}
-	public List<IWSMethode> getMethods() {
-		return methods;
+	public List<IWSProperties> getMethods() {
+		return properties;
 	}
-	public void setMethods(List<IWSMethode> methods) {
-		this.methods = methods;
+	public void setMethods(List<IWSProperties> methods) {
+		this.properties = methods;
 	}
-	public void addMethode(IWSMethode methode) {
-		this.methods.add(methode);
+	public void addMethode(IWSProperties methode) {
+		this.properties.add(methode);
 	}
 }
