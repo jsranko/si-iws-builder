@@ -1,6 +1,6 @@
 package de.sranko_informatik.ibmi.iwsbuilder;
 
-public class IWSServer {
+public class IWSSServer {
 	protected String name;
 	protected int port;
 	protected String userId;

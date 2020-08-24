@@ -1,6 +1,6 @@
 package de.sranko_informatik.ibmi.iwsbuilder;
 
-public class IWSResponse {
+public class IWSSResponse {
 
 	protected String httpCode;
 	protected String description;

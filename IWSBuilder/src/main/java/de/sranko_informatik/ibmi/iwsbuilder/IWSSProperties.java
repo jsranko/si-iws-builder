@@ -3,13 +3,13 @@ package de.sranko_informatik.ibmi.iwsbuilder;
 import java.util.HashMap;
 import java.util.List;
 
-public class IWSProperties {
+public class IWSSProperties {
 
 	protected HashMap<String, String> attributes;
-	protected List<IWSResponse> responses;
+	protected List<IWSSResponse> responses;
 
 	
-	public IWSProperties() {
+	public IWSSProperties() {
 		super();
 		this.attributes = new HashMap<String, String>();
 	}	
@@ -26,15 +26,15 @@ public class IWSProperties {
 		this.attributes.put(attribute, attributeValue);
 	}
 
-	public List<IWSResponse> getResponses() {
+	public List<IWSSResponse> getResponses() {
 		return responses;
 	}
 
-	public void setResponses(List<IWSResponse> responses) {
+	public void setResponses(List<IWSSResponse> responses) {
 		this.responses = responses;
 	}	
 	
-	public void addResponses(IWSResponse response) {
+	public void addResponses(IWSSResponse response) {
 		this.responses.add(response);
 	}		
 }

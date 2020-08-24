@@ -16,7 +16,7 @@ import io.swagger.parser.SwaggerParser;
 
 public class IWS {
 	
-	private IWSServer server;
+	private IWSSServer server;
 	private String shellPath = new String("/QIBM/ProdData/OS/WebServices/bin");
 	private String createWebServicesServer = new String("createWebServicesServer.sh");
 	private String startWebServicesServer = new String("startWebServicesServer.sh");
@@ -27,16 +27,16 @@ public class IWS {
 	private InputStream output;
 	private List<String> propertiesLines;
 	
-	public IWS(IWSServer server) {
+	public IWS(IWSSServer server) {
 		super();
 		this.server = server;
 	}
 	
-	public IWSServer getServer() {
+	public IWSSServer getServer() {
 		return server;
 	}
 
-	public void setServer(IWSServer server) {
+	public void setServer(IWSSServer server) {
 		this.server = server;
 	}
 
@@ -67,7 +67,7 @@ public class IWS {
 		return run(command);
 	}
 	
-	public int installWebService(IWSService service) throws IOException, InterruptedException {
+	public int installWebService(IWSSService service) throws IOException, InterruptedException {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, installWebService));
@@ -146,14 +146,19 @@ public class IWS {
 		
 		return run(command);		
 	}		
+
+	public String getSwaggerLocation(IWSSService service) throws IOException, InterruptedException {
+		
+		String location = String.format("%s/%s/META-INF/swagger.json", getWebServicesInstallPath(), service.getName());
+		
+		//String location = new String("resources\\swagger.json");
+		
+		return location;
+	}	
 	
-	public Swagger getSwagger(IWSService service) throws IOException, InterruptedException {
+	public Swagger getSwagger(IWSSService service) throws IOException, InterruptedException {
 		
-		//String path = String.format("%s/%s/META-INF/swagger.json", getWebServicesInstallPath(), service.getName());
-		
-		String path = new String("resources\\swagger.json");
-		
-		System.out.println(path);
+		String path = getSwaggerLocation(service);
 		
 		Swagger swagger = new SwaggerParser().read(path);
 		
@@ -164,16 +169,16 @@ public class IWS {
 	public int run(List<String> command) throws IOException, InterruptedException {
 		
 		ProcessBuilder builder = new ProcessBuilder(command);
-		//builder.directory(new File(shellPath));
 		
 		Process process = builder.start();
 		
 		int exitCode = process.waitFor();
 		
-		builder.redirectOutput();
+		//builder.redirectOutput();
 		
 		if (exitCode != 0) {
-			setOutput(process.getErrorStream());
+			//setOutput(process.getErrorStream());
+			setOutput(process.getInputStream());
 		} else {
 			setOutput(process.getInputStream());
 		}

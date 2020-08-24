@@ -3,7 +3,7 @@ package de.sranko_informatik.ibmi.iwsbuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IWSDeserializationResult {
+public class IWSSDeserializationResult {
     private IWSS iwsserver;
     private List<String> messages;
 
@@ -23,7 +23,7 @@ public class IWSDeserializationResult {
         this.iwsserver = iwsserver;
     }
 
-    public IWSDeserializationResult message(String message) {
+    public IWSSDeserializationResult message(String message) {
         if(messages == null) {
             messages = new ArrayList<String>();
         }

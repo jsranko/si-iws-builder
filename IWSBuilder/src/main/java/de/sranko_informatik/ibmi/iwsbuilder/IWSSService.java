@@ -3,7 +3,7 @@ package de.sranko_informatik.ibmi.iwsbuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class IWSService {
+public class IWSSService {
 	protected String name;
 	protected String programObject;
 	protected String userId;
@@ -17,12 +17,12 @@ public class IWSService {
 	protected String transportMetadata;
 	protected String transportHeaders;
 	protected boolean useParamNameAsElementName;
-	protected List<IWSProperties> properties;
+	protected List<IWSSProperties> properties;
 	
 	
-	public IWSService() {
+	public IWSSService() {
 		super();
-		this.properties = new ArrayList<IWSProperties>();
+		this.properties = new ArrayList<IWSSProperties>();
 	}
 	public String getName() {
 		return name;
@@ -75,6 +75,12 @@ public class IWSService {
 	public String getLibraryList() {
 		return libraryList;
 	}
+	public List<IWSSProperties> getProperties() {
+		return properties;
+	}
+	public void setProperties(List<IWSSProperties> properties) {
+		this.properties = properties;
+	}
 	public void setLibraryList(String libraryList) {
 		this.libraryList = libraryList;
 	}
@@ -102,13 +108,13 @@ public class IWSService {
 	public void setUseParamNameAsElementName(boolean useParamNameAsElementName) {
 		this.useParamNameAsElementName = useParamNameAsElementName;
 	}
-	public List<IWSProperties> getMethods() {
+	public List<IWSSProperties> getMethods() {
 		return properties;
 	}
-	public void setMethods(List<IWSProperties> methods) {
+	public void setMethods(List<IWSSProperties> methods) {
 		this.properties = methods;
 	}
-	public void addMethode(IWSProperties methode) {
+	public void addMethode(IWSSProperties methode) {
 		this.properties.add(methode);
 	}
 }

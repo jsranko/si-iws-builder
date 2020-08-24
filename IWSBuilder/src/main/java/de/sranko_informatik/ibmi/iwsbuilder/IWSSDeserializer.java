@@ -12,19 +12,19 @@ import com.fasterxml.jackson.databind.node.ArrayNode;
 import com.fasterxml.jackson.databind.node.JsonNodeType;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 
-public class IWSDeserializer {
+public class IWSSDeserializer {
 	
-    public IWSDeserializationResult deserialize(JsonNode rootNode) {
-    	IWSDeserializationResult result = new IWSDeserializationResult();
+    public IWSSDeserializationResult deserialize(JsonNode rootNode) {
+    	IWSSDeserializationResult result = new IWSSDeserializationResult();
         ParseResult rootParse = new ParseResult();
         
         JsonNode nodeServer = rootNode.get("server");
         
         IWSS iwss = new IWSS();
-        IWSServer server = parseServer(nodeServer, rootParse);
+        IWSSServer server = parseServer(nodeServer, rootParse);
         iwss.setServer(server);        		
         
-        List<IWSService> services = parseServices(rootNode, rootParse);
+        List<IWSSService> services = parseServices(rootNode, rootParse);
         iwss.setServices(services);
         
         result.setIwsserver(iwss);
@@ -32,9 +32,9 @@ public class IWSDeserializer {
         return result;
     }
     
-	public IWSServer parseServer(JsonNode node, ParseResult result) {
+	public IWSSServer parseServer(JsonNode node, ParseResult result) {
     	String location = "server";
-    	IWSServer iwsserver = new IWSServer();
+    	IWSSServer iwsserver = new IWSSServer();
     	if (node.getNodeType().equals(JsonNodeType.OBJECT)) {
     		ObjectNode on = (ObjectNode) node;
     		
@@ -56,9 +56,9 @@ public class IWSDeserializer {
 		return iwsserver;
     }
 	
-	private List<IWSService> parseServices(JsonNode node, ParseResult result) {
+	private List<IWSSService> parseServices(JsonNode node, ParseResult result) {
 	   String location = "services";
-	   List<IWSService> services = new ArrayList<>();
+	   List<IWSSService> services = new ArrayList<>();
 	   JsonNode nodeServices = node.get("services");
 	   ArrayNode arrayNode = getArray("services", nodeServices, true, location, result);
        if (arrayNode != null) {
@@ -66,16 +66,16 @@ public class IWSDeserializer {
                if (!n.isContainerNode()) {
                    result.invalidType(location, "services", "value", n);
                }
-               IWSService service = parseService(n, result);
+               IWSSService service = parseService(n, result);
                services.add(service);
            }
        }
        return services;
    }   
 
-   private IWSService parseService(JsonNode node, ParseResult result) {
+   private IWSSService parseService(JsonNode node, ParseResult result) {
 	String location = "services";
-   	IWSService service = new IWSService();
+   	IWSSService service = new IWSSService();
    	if (node.getNodeType().equals(JsonNodeType.OBJECT)) {
    		ObjectNode on = (ObjectNode) node;
    		
@@ -124,79 +124,64 @@ public class IWSDeserializer {
     if (arrayNode != null) {
         for (JsonNode n : arrayNode) {
             if (!n.isContainerNode()) {
-                result.invalidType(location, "methods", "value", n);
+                result.invalidType(location, "properties", "value", n);
             }
-            IWSProperties methode = parseMethode(n, result);
+            IWSSProperties methode = parseProperties(n, result);
             service.addMethode(methode);
         }
     }
 	return service;
    }
    
-	public IWSProperties parseMethode(JsonNode node, ParseResult result) {
+	public IWSSProperties parseProperties(JsonNode node, ParseResult result) {
     	String location = "methode";
-    	IWSProperties methode = new IWSProperties();
+    	IWSSProperties methode = new IWSSProperties();
     	if (node.getNodeType().equals(JsonNodeType.OBJECT)) {
     		ObjectNode on = (ObjectNode) node;
     		
     		Iterator<Entry<String, JsonNode>> nodes = on.fields();
     		  Map.Entry<String, JsonNode> nodeMap = null;
     		  while (nodes.hasNext()) {
-    			  if (nodes.next().getKey() == "responses") {
+    			  nodeMap = nodes.next();
+    			  if (nodeMap.getKey() == "responses") {
     				  break;
     			  }
-    			  nodeMap = nodes.next();
+			  
     			  String nodeMapKey = nodeMap.getKey();
     			  String nodeMapValue = nodeMap.getValue().asText();
-    			  if (!nodeMap.getValue().getNodeType().equals(JsonNodeType.NULL)) {
+    			  //if (!nodeMap.getValue().getNodeType().equals(JsonNodeType.NULL)) {
     				  methode.addAttributes(nodeMapKey, nodeMapValue);
-    			  } 
+    			  //} 
     		  }
-    		  
-    		methode.setResponses(parseResponses(node, result));
+    		 
+    		  JsonNode nodeResponses = node.get("responses");
+    		  methode.setResponses(parseResponses(nodeResponses, result));
     	}
 		return methode;
     }
 	
-	private List<IWSResponse> parseResponses(JsonNode node, ParseResult result) {
-		   String location = "responses";
-		   List<IWSResponse> responses = new ArrayList<>();
-		   JsonNode nodeServices = node.get("responses");
-		   ArrayNode arrayNode = getArray("responses", nodeServices, true, location, result);
-	       if (arrayNode != null) {
-	           for (JsonNode n : arrayNode) {
-	               if (!n.isContainerNode()) {
-	                   result.invalidType(location, "responses", "value", n);
-	               }
-	               IWSResponse service = parseResponse(n, result);
-	               responses.add(service);
-	           }
-	       }
-	       return responses;
+	private List<IWSSResponse> parseResponses(JsonNode node, ParseResult result) {
+		String location = "responses";
+		List<IWSSResponse> responses = new ArrayList<>();
+		   
+		if (node.getNodeType().equals(JsonNodeType.OBJECT)) {
+			ObjectNode on = (ObjectNode) node;
+		    		
+			Iterator<Entry<String, JsonNode>> nodes = on.fields();
+			Map.Entry<String, JsonNode> nodeMap = null;
+			while (nodes.hasNext()) {
+				nodeMap = nodes.next();
+
+				IWSSResponse response = new IWSSResponse();
+				response.setHttpCode(nodeMap.getKey());
+				response.setDescription(getString("description", nodeMap.getValue(), true, location, result));
+				responses.add(response);
+			}
+		}
+		return responses;
 	}   
 	   
-	public IWSResponse parseResponse(JsonNode node, ParseResult result) {
-	   	String location = "response";
-	   	IWSResponse response = new IWSResponse();
-	   	if (node.getNodeType().equals(JsonNodeType.OBJECT)) {
-	   		ObjectNode on = (ObjectNode) node;
-	    		
-	   		Iterator<Entry<String, JsonNode>> nodes = on.fields();
-	   		Map.Entry<String, JsonNode> nodeMap = null;
-	   		while (nodes.hasNext()) {
 
-	   			nodeMap = nodes.next();
-	   			System.out.println(nodeMap.getKey().concat(nodeMap.getValue().asText()));
-	   			if (!nodeMap.getValue().getNodeType().equals(JsonNodeType.NULL)) {
-	   				response.setHttpCode(nodeMap.getKey());
-		   			response.setDescription(getString("description", nodeMap.getValue(), true, location, result));
-		   			System.out.println(response.getDescription());
-	   			} 
-	   		}
-	   	}
-		return response;
-	}	
-    
 	public String getString(String key, JsonNode node, boolean required, String location, ParseResult result) {
         String value = null;
         JsonNode v = node.get(key);

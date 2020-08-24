@@ -1,74 +1,74 @@
 package de.sranko_informatik.ibmi.iwsbuilder;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 
 import io.swagger.models.Swagger;
 import io.swagger.parser.SwaggerParser;
+import io.swagger.util.Json;
 
 /**
  * Hello world!
  *
  */
 public class App {
-	public static void main(String[] args) throws UnknownError {
-		//String location = new String("resources\\swagger.json");
-		//Swagger swagger = new SwaggerParser().read(location);
-		//Map<String, io.swagger.models.Path> paths = swagger.getPaths();
+	public static void main(String[] args) throws UnknownError, IOException, InterruptedException {
 
 		String swaggerLocation;
 		String iwssLocation = new String(args[0]);
 		
 		IWSS iwss = getIWSS(iwssLocation);
-		iwss = getIWSS("resources\\SIIIA.iwss");
+		//iwss = getIWSS("resources\\SIIIA.iwss");
 		
 		IWS iws = new IWS(iwss.getServer());
 
-//		if (existServer(iws)) {
-//			
-//			if (isServerRunning(iws)) {
-//				System.out.println(String.format("Server %s wird gestoppt ...", iwss.getServer().getName()));
-//				if (iws.stopWebServicesServer() != 0) {
-//					//throw new UnknownError(iws.getOutputAsString());
-//					System.out.println(String.format("Server %s bereits gestoppt.", iwss.getServer().getName()));
-//				}				
-//			}
-//			
-//			System.out.println(String.format("Server %s wird gelöscht ...", iwss.getServer().getName()));
-//			if (iws.deleteWebServicesServer() != 0) {
-//				throw new UnknownError(iws.getOutputAsString());
-//			}	
-//		}
-//		
-//		System.out.println(String.format("Server %s wird erstellt ...", iwss.getServer().getName()));
-//		if (iws.createWebServicesServer() != 0) {
-//			throw new UnknownError(iws.getOutputAsString());
-//		}
-//		
-//		System.out.println(String.format("Server %s wird gestartet ...", iwss.getServer().getName()));
-//		if (iws.startWebServicesServer() != 0) {
-//			throw new UnknownError(iws.getOutputAsString());
-//		}	
+		if (existServer(iws)) {
+			
+			if (isServerRunning(iws)) {
+				System.out.println(String.format("Server %s wird gestoppt ...", iwss.getServer().getName()));
+				if (iws.stopWebServicesServer() != 0) {
+					//throw new UnknownError(iws.getOutputAsString());
+					System.out.println(String.format("Server %s bereits gestoppt.", iwss.getServer().getName()));
+				}				
+			}
+			
+			System.out.println(String.format("Server %s wird gelöscht ...", iwss.getServer().getName()));
+			if (iws.deleteWebServicesServer() != 0) {
+				throw new UnknownError(iws.getOutputAsString());
+			}	
+		}
+		
+		System.out.println(String.format("Server %s wird erstellt ...", iwss.getServer().getName()));
+		if (iws.createWebServicesServer() != 0) {
+			throw new UnknownError(iws.getOutputAsString());
+		}
+		
+		System.out.println(String.format("Server %s wird gestartet ...", iwss.getServer().getName()));
+		if (iws.startWebServicesServer() != 0) {
+			throw new UnknownError(iws.getOutputAsString());
+		}	
 			
 		System.out.println("Services werden installiert ...");
-		for (IWSService service : iwss.getServices()) {
+		for (IWSSService service : iwss.getServices()) {
 			System.out.println(String.format("Service %s wird installiert ...", service.getName()));
-//			if (iws.installWebService(service) != 0) {
-//				System.out.println(String.format("Service %s konnte nicht installiert werden.", service.getName()));
-//			}	
+			if (iws.installWebService(service) != 0) {
+				System.out.println(String.format("Service %s konnte nicht installiert werden, weil %s", service.getName(), iws.getOutputAsString()));
+			}	
 			
 			Swagger swagger;
 			try {
 				swagger = iws.getSwagger(service);
 				swagger = iwss.updateSwagger(swagger);
+				if (!writeToJson(swagger, iws.getSwaggerLocation(service))) {
+					System.out.println("xxx");
+				}
 			} catch (IOException e) {
 				e.printStackTrace();
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
 			
-			
-			
-			//Swagger swagger = new SwaggerParser().read(swaggerLocation);
 		}
 
 		//getServerProperties(iws);		
@@ -123,5 +123,31 @@ public class App {
 		System.out.println(iws.getHTTPServerName());
 		System.out.println(iws.getHTTPServerPorts());
 		
+	}
+	
+	private static boolean writeToJson(Swagger swagger, String location) {
+		
+		String jsonOutput = Json.pretty(swagger);
+		FileOutputStream outputStream;
+		try {
+			outputStream = new FileOutputStream(location);
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+		try {
+			outputStream.write(jsonOutput.getBytes());
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		try {
+			outputStream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		return true;
 	}
 }

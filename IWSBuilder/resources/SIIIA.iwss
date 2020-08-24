@@ -35,13 +35,14 @@
 					"SIROUTER.PAYLOADOUT.usage": "output",
 					"SIROUTER.RESPONSECODE.usage": "output",
 					"SIROUTER.RESPONSEHEADERS.usage": "output",
-					"responses" : [
-						{
-							"200": {
-           						"description": "Successful operation"
-            				}
+					"responses" : {
+						"200": {
+           					"description": "Successful operation XXXXXX"
+            			},
+            			"400": {
+           					"description": "yyyyyyy"
             			}
-            		]
+            		}
 				}
 			],
 			"script" : [

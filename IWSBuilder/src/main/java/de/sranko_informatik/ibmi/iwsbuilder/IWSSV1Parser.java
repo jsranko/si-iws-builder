@@ -11,7 +11,7 @@ import org.apache.commons.io.FileUtils;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-public class IWSSV1Parser implements IWSParserExtension {
+public class IWSSV1Parser implements IWSSParserExtension {
 	
 	@Override
 	public IWSS read(String location) throws IOException {
@@ -51,7 +51,7 @@ public class IWSSV1Parser implements IWSParserExtension {
             if (serverNode == null) {
                 return null;
             } else {
-                IWSDeserializationResult result = new IWSDeserializer().deserialize(rootNode);
+                IWSSDeserializationResult result = new IWSSDeserializer().deserialize(rootNode);
 
                 IWSS convertValue = result.getIwsserver();
                 if (System.getProperty("debugParser") != null) {
