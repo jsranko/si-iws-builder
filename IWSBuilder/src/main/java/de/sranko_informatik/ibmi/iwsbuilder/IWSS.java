@@ -3,6 +3,7 @@
  */
 package de.sranko_informatik.ibmi.iwsbuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -80,11 +81,13 @@ public class IWSS {
 	
 	private Operation updateOperation(String uri, Operation operation, String methode) {
 		Map<String, Response> responses = operation.getResponses();
+		List<String> httpCodes = new ArrayList<String>();
 		
 		for (Map.Entry<String, Response> entry : responses.entrySet()) {
 			Response response = entry.getValue();
 			response = updateResponse(operation, uri, entry.getKey(), methode, response);
 			responses.put(entry.getKey(), response);
+			httpCodes.add(entry.getKey());
 		}
 		
 		for (IWSSService service : this.services){
@@ -93,9 +96,11 @@ public class IWSS {
 					if (property.getAttributes().containsValue(uri) && 
 					    property.getAttributes().containsValue(methode)) {
 						for (IWSSResponse entry : property.getResponses()){
-							Response resp = new Response();
-							resp.setDescription(entry.getDescription());
-							responses.put(entry.getHttpCode(), resp);
+							if (!httpCodes.contains(entry.getHttpCode())) {
+								Response resp = new Response();
+								resp.setDescription(entry.getDescription());
+								responses.put(entry.getHttpCode(), resp);
+							}
 						}					
 					}
 				}	

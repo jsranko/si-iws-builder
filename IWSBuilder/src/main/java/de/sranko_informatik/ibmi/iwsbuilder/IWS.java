@@ -1,10 +1,14 @@
 package de.sranko_informatik.ibmi.iwsbuilder;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.apache.commons.io.IOUtils;
 
@@ -68,6 +72,16 @@ public class IWS {
 	}
 	
 	public int installWebService(IWSSService service) throws IOException, InterruptedException {
+		
+		OutputStream propFileOS = new FileOutputStream(service.getPropertiesFile());
+		OutputStreamWriter propFile = new OutputStreamWriter(propFileOS);
+		
+	    for (IWSSProperties werbservice : service.getProperties()){
+	    	for (Entry<String, String> property : werbservice.getAttributes().entrySet()) {
+	    		propFile.write (String.format("%s:%s\n", property.getKey(), property.getValue()));
+			}
+	    }	
+		propFile.close();
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, installWebService));

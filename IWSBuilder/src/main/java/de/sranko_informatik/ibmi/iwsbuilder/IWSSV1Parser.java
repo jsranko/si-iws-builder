@@ -1,10 +1,18 @@
 package de.sranko_informatik.ibmi.iwsbuilder;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.net.URI;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 import org.apache.commons.io.FileUtils;
 
@@ -24,7 +32,9 @@ public class IWSSV1Parser implements IWSSParserExtension {
             path = Paths.get(location);
         }
 		if(Files.exists(path)) {
-            data = FileUtils.readFileToString(path.toFile(), "UTF-8");
+			data = FileUtils.readFileToString(path.toFile(), "UTF-8");
+        } else {
+        	System.out.println(String.format("Datei % nicht gefunden.", location));
         }
 		
 		return convertToIWSS(data);
@@ -65,4 +75,6 @@ public class IWSSV1Parser implements IWSSParserExtension {
         }
 		
 	}
+	
+
 }
