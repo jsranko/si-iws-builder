@@ -1,7 +1,7 @@
 # Download
 
 ```
- curl https://api.github.com/repos/jsranko/si-iws-builder/releases/latest --insecure | jq '.assets[].browser_download_url | select(contains("with-"))' | xargs -n1 wget -O - -q
+curl https://api.github.com/repos/jsranko/si-iws-builder/releases/latest --insecure | jq '.assets[].browser_download_url | select(contains("with-"))' | xargs -n1 wget -O si-iws-builder-latest.jar --no-check-certificate
 ```
 
 # Run
