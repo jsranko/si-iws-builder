@@ -212,106 +212,184 @@ public class IWS {
 		this.output = output;
 	}	
 	
-	public String getInstancePath() throws IOException, InterruptedException {
+	public String getInstancePath() {
 		
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Instance path: ");
 	}
 	
-	public String getApplicationServer() throws IOException, InterruptedException {
+	public String getApplicationServer()  {
 	
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Application server: ");
 	}
 	
-	public String getApplicationServerPorts() throws IOException, InterruptedException {
+	public String getApplicationServerPorts() {
 	
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Application server ports: ");
 	}	
 	
-	public String getSubsystem() throws IOException, InterruptedException {
+	public String getSubsystem() {
 	
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Subsystem: ");
 	}	
 	
-	public String getJobname() throws IOException, InterruptedException {
+	public String getJobname() {
 	
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Job name: ");
 	}		
 
-	public String getRuntimeUserId() throws IOException, InterruptedException {
+	public String getRuntimeUserId() {
 		
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Runtime user ID: ");
 	}	
 	
-	public String getJVMVersion() throws IOException, InterruptedException {
+	public String getJVMVersion() {
 		
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("JVM version: ");
 	}		
 	
-	public String getJVMType() throws IOException, InterruptedException {
+	public String getJVMType() {
 		
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("JVM type: ");
 	}	
 	
-	public String getWebServicesRuntime() throws IOException, InterruptedException {
+	public String getWebServicesRuntime() {
 	
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Web services runtime: ");
 	}	
 	
-	public String getWebServicesInstallPath() throws IOException, InterruptedException {
+	public String getWebServicesInstallPath() {
 
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Web services install path: ");
 	}	
 	
-	public String getContextRoot() throws IOException, InterruptedException {
+	public String getContextRoot() {
 	
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Context root: ");
 	}	
 	
-	public String getJavaToolboxTracing() throws IOException, InterruptedException {
+	public String getJavaToolboxTracing() {
 	
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Java toolbox tracing: ");
 	}	
 	
-	public String getToolboxTraceOutputFileName() throws IOException, InterruptedException {
+	public String getToolboxTraceOutputFileName() {
 	
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			}
 		}
 		return searchValue("Toolbox trace output file name: ");
 	}	
@@ -321,10 +399,18 @@ public class IWS {
 		return searchValue("Server log file name: ");
 	}	
 	
-	public String getHTTPServerName() throws IOException, InterruptedException {
+	public String getHTTPServerName() {
 		
 		if (this.propertiesLines == null) {
-			getProperties();
+			try {
+				getProperties();
+			} catch (IOException e) {
+				return null;
+			} catch (InterruptedException e) {
+				return null;
+			} catch (UnknownError e) {
+				return null;
+			}
 		}
 		return searchValue("HTTP server name: ");
 	}	
@@ -350,7 +436,7 @@ public class IWS {
 	private void getProperties() throws IOException, InterruptedException {
 
 		if (getWebServicesServerProperties() != 0) {
-			throw new UnknownError("xxx");
+			throw new UnknownError("IWS-Server does not exist");
 		}
 		
 		this.propertiesLines = IOUtils.readLines(getOutput(), "UTF-8");

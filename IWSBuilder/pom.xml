@@ -1,22 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>de.sranko-informatik.ibmi</groupId>
 	<version>0.0.1-SNAPSHOT</version>
+	<name>si-iws-builder</name>
+	<url>https://github.com/jsranko/si-iws-builder/wiki</url>
+	<packaging>jar</packaging>
 
-	<name>IWSBuilder</name>
-	<!-- FIXME change it to the project's website -->
-	<url>http://www.example.com</url>
+	<developers>
+		<developer>
+			<name>Sranko Informatik / Juraj Sranko</name>
+			<email>jus@sranko-informatik.de</email>
+			<organization>de.sranko-informatik</organization>
+			<organizationUrl>https://www.sranko-informatik.de</organizationUrl>
+		</developer>
+	</developers>
 
 
 	<distributionManagement>
 		<repository>
-			<id>ssh-repository</id>
-			<url>scp://p1286-pvm1.cecc.ihost.com</url>
+			<id>github</id>
+			<name>GitHub jsranko Apache Maven Packages</name>
+			<url>https://maven.pkg.github.com/jsranko/si-iws-builder</url>
 		</repository>
 	</distributionManagement>
 
@@ -47,11 +55,6 @@
 			<groupId>io.swagger</groupId>
 			<artifactId>swagger-models</artifactId>
 			<version>1.6.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-jdk14</artifactId>
-			<version>1.7.25</version>
 		</dependency>
 	</dependencies>
 
@@ -103,15 +106,13 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-		<extensions>
-			<!-- Enabling the use of SSH -->
-			<extension>
-				<groupId>org.apache.maven.wagon</groupId>
-				<artifactId>wagon-ssh</artifactId>
-				<version>2.10</version>
-			</extension>
-		</extensions>
+
 
 	</build>
-	<artifactId>IWSBuilder</artifactId>
+	<artifactId>si-iws-builder </artifactId>
+	<organization>
+		<name>Sranko Informatik</name>
+		<url>www.sranko-informatik.de</url>
+	</organization>
+	<description> </description>
 </project>
