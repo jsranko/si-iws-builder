@@ -1,7 +1,8 @@
 # si-iws-builder (IWS Builder)
-si-iws-builder is an opensource library to save IWS (IBM Integrated Web Application Server) server definition in text/json format.
+si-iws-builder is an opensource library to save IBM IWS (IBM Integrated Web Application Server) server definition in text/json format.
 
 Examples and documentation are available here https://github.com/jsranko/si-iws-builder/wiki
+
 # download
 
 ```
@@ -13,10 +14,10 @@ curl https://api.github.com/repos/jsranko/si-iws-builder/releases/latest --insec
 # run
 
 ```
-java -cp IWSBuilder-0.0.1-SNAPSHOT.jar:./dependency/* de.sranko_informatik.ibmi.iwsbuilder.App "SIIIA.iws"
+java -cp si-iws-builder-latest.jar de.sranko_informatik.ibmi.iwsbuilder.App "SIIIA.iws"
 ```
 ```
-java -cp IWSBuilder-0.0.1-SNAPSHOT.jar:./dependency/* de.sranko_informatik.ibmi.iwsbuilder.App "/QSYS.LIB/SIIIA.LIB/QIWSSSRC.FILE/SIIIA.MBR"
+java -cp si-iws-builder-latest.jar de.sranko_informatik.ibmi.iwsbuilder.App "/QSYS.LIB/SIIIA.LIB/QIWSSSRC.FILE/SIIIA.MBR"
 ```
 
 # debug
