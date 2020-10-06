@@ -3,9 +3,6 @@ si-iws-builder is an opensource library to save IBM IWS (IBM Integrated Web Appl
 
 Examples and documentation are available here https://github.com/jsranko/si-iws-builder/wiki
 
-## download
-
-
 
 ## Usage
 
