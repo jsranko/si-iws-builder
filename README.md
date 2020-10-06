@@ -1,12 +1,12 @@
-# Download
+# download
 
 ```
 curl https://api.github.com/repos/jsranko/si-iws-builder/releases/latest --insecure 
 | jq '.assets[].browser_download_url | select(contains("with-"))' 
-| xargs -n1 wget -O si-iws-builder-latest.jar --no-check-certificate
+| xargs -n1 curl --output si-iws-builder-latest.jar --insecure
 ```
 
-# Run
+# run
 
 ```
 java -cp IWSBuilder-0.0.1-SNAPSHOT.jar:./dependency/* de.sranko_informatik.ibmi.iwsbuilder.App "SIIIA.iws"
