@@ -23,7 +23,7 @@ java -cp si-iws-builder-latest.jar de.sranko_informatik.ibmi.iwsbuilder.App "SII
 java -cp si-iws-builder-latest.jar de.sranko_informatik.ibmi.iwsbuilder.App "/QSYS.LIB/SIIIA.LIB/QIWSSSRC.FILE/SIIIA.MBR"
 ```
 
-## debug
+## Debug
 
 1. Debug with configuration from ifs
 ```
