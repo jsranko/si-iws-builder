@@ -53,3 +53,6 @@ After some time the following should be visible in the console
 [INFO] Finished at: 2020-10-08T05:08:59-04:00
 [INFO] ------------------------------------------------------------------------
 ```
+
+## Run the App
+See https://github.com/jsranko/si-iws-builder/wiki
