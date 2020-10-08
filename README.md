@@ -55,4 +55,4 @@ After some time the following should be visible in the console
 ```
 
 ## Run the App
-See https://github.com/jsranko/si-iws-builder/wiki#how-to-use-iws-builder
+See [How to use IWS Builder](https://github.com/jsranko/si-iws-builder/wiki#how-to-use-iws-builder) 
