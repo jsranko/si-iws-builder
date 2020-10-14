@@ -4,6 +4,7 @@ public class IWSSServer {
 	protected String name;
 	protected int port;
 	protected String userId;
+	protected boolean noHttp;
 	protected String version;
 	protected boolean printErrorDetails;
 	
@@ -37,6 +38,11 @@ public class IWSSServer {
 	public void setPrintErrorDetails(boolean printErrorDetails) {
 		this.printErrorDetails = printErrorDetails;
 	}
-	
+	public boolean isNoHttp() {
+		return noHttp;
+	}
+	public void setNoHttp(boolean noHttp) {
+		this.noHttp = noHttp;
+	}	
 	
 }

@@ -1,0 +1,10 @@
+Pgm Parm(&iwssstmf)
+Dcl &iwssstmf Type(*Char) Len(256)
+Dcl &jarfile Type(*Char) Len(256)
+
+QSYS/RUNJVA CLASS(de.sranko_informatik.ibmi.iwsbuilder.App) +
+            PARM(&iwssstmf) +                  
+            CLASSPATH(&jarfile)   
+MONMGS JVA0000      
+
+Endpgm

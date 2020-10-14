@@ -49,14 +49,28 @@ public class IWS {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, createWebServicesServer));
-		command.add("-server");
-		command.add(this.server.name);
-		command.add("-startingPort");
-		command.add(String.valueOf(server.port));
-		command.add("-userid");
-		command.add(this.server.userId);
-		command.add("-version");
-		command.add(this.server.version);
+		if (this.server.name != null) {
+			command.add("-server");
+			command.add(this.server.name);			
+		}
+		if (server.port != 0) {
+			command.add("-startingPort");
+			command.add(String.valueOf(server.port));			
+		}
+		if (this.server.userId != null) {
+			command.add("-userid");
+			command.add(this.server.userId);			
+		}
+		if (this.server.isNoHttp()) {
+			command.add("-noHttp");
+		}
+		if (this.server.version != null) {
+			command.add("-version");
+			command.add(this.server.version);			
+		}
+		if (this.server.isPrintErrorDetails()) {
+			command.add("-printErrorDetails");
+		}
 		
 		return run(command);
 	}
@@ -65,8 +79,10 @@ public class IWS {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, startWebServicesServer));
-		command.add("-server");
-		command.add(this.server.name);
+		if (this.server.name != null) {
+			command.add("-server");
+			command.add(this.server.name);			
+		}
 	
 		return run(command);
 	}
@@ -85,36 +101,63 @@ public class IWS {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, installWebService));
-		command.add("-server");
-		command.add(this.server.name);
-		command.add("-programObject");
-		command.add(service.getProgramObject());
-		command.add("-service");
-		command.add(service.getName());
+		if (this.server.name != null) {
+			command.add("-server");
+			command.add(this.server.name);			
+		}
+		if (service.getProgramObject() != null) {
+			command.add("-programObject");
+			command.add(service.getProgramObject());			
+		}
+		if (service.getName() != null) {
+			command.add("-service");
+			command.add(service.getName());			
+		}
+
 		//command.add(String.format("-pcml"));
 		//command.add(service.get);
-		command.add("-userid");
-		command.add(service.getUserId());
-		command.add("-detectFieldLengths");
-		command.add("-serviceType");
-		command.add(service.getServiceType());
-		command.add("-host");
-		command.add(service.getServiceType());
-		command.add("-targetNamespace");
-		command.add(service.getTargetNamespace());
-		command.add("-propertiesFile");
-		command.add(service.getPropertiesFile());
-		command.add("-libraryList");
-		command.add(service.getLibraryList());
-		command.add("-libraryListPosition");
-		command.add(service.getLibraryListPosition());
-		command.add("-transportMetadata");
-		command.add(service.getTransportMetadata());
+		if (service.getUserId() != null) {
+			command.add("-userid");
+			command.add(service.getUserId());			
+		}
+		if (service.detectFieldLengths) {
+			command.add("-detectFieldLengths");			
+		}
+		if (service.getServiceType() != null) {
+			command.add("-serviceType");
+			command.add(service.getServiceType());			
+		}
+		if (service.getServiceType() != null) {
+			command.add("-host");
+			command.add(service.getHost());			
+		}
+		if (service.getTargetNamespace() != null) {
+			command.add("-targetNamespace");
+			command.add(service.getTargetNamespace());			
+		}
+		if (service.getPropertiesFile() != null) {
+			command.add("-propertiesFile");
+			command.add(service.getPropertiesFile());			
+		}
+		if (service.getLibraryList() != null) {
+			command.add("-libraryList");
+			command.add(service.getLibraryList());			
+		}
+		if (service.getLibraryListPosition() != null) {
+			command.add("-libraryListPosition");
+			command.add(service.getLibraryListPosition());			
+		}
+		if (service.getTransportMetadata() != null) {
+			command.add("-transportMetadata");
+			command.add(service.getTransportMetadata());			
+		}
 		if (service.isUseParamNameAsElementName()) {
 			command.add("-useParamNameAsElementName");
 		}
-		command.add("-transportHeaders");
-		command.add(String.valueOf(service.getTransportHeaders()));
+		if (service.getTransportHeaders() != null) {
+			command.add("-transportHeaders");
+			command.add(String.valueOf(service.getTransportHeaders()));			
+		}
 		if (service.isUseParamNameAsElementName()) {
 			command.add("-useParamNameAsElementName");
 		}		
@@ -129,8 +172,10 @@ public class IWS {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, stopWebServicesServer));
-		command.add("-server");
-		command.add(this.server.name);
+		if (this.server.name != null) {
+			command.add("-server");
+			command.add(this.server.name);			
+		}
 		
 		return run(command);
 	}	
@@ -139,8 +184,10 @@ public class IWS {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, deleteWebServicesServer));
-		command.add("-server");
-		command.add(this.server.name);
+		if (this.server.name != null) {
+			command.add("-server");
+			command.add(this.server.name);			
+		}
 		if (server.isPrintErrorDetails()) {
 			command.add("-printErrorDetails");
 		}
@@ -152,8 +199,10 @@ public class IWS {
 		
 		List<String> command = new ArrayList<>();
 		command.add(String.format("%s/%s", shellPath, getWebServicesServerProperties));
-		command.add("-server");
-		command.add(this.server.name);
+		if (this.server.name != null) {
+			command.add("-server");
+			command.add(this.server.name);			
+		}
 		if (this.server.isPrintErrorDetails()) {
 			command.add("-printErrorDetails");
 		}
@@ -183,6 +232,8 @@ public class IWS {
 	public int run(List<String> command) throws IOException, InterruptedException {
 		
 		ProcessBuilder builder = new ProcessBuilder(command);
+		
+		System.out.println("Trace: " + command);
 		
 		Process process = builder.start();
 		

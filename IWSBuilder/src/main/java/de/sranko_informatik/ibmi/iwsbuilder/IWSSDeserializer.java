@@ -47,6 +47,9 @@ public class IWSSDeserializer {
     		value = getString("userId", node, true, location, result);
     		iwsserver.setUserId(value);
     		
+    		boolean noHttp = getBoolean("noHttp", node, false, location, result);
+    		iwsserver.setNoHttp(noHttp);   		
+    		
     		value = getString("version", node, false, location, result);
     		iwsserver.setVersion(value);
     		
