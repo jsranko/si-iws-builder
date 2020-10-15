@@ -226,7 +226,7 @@ public class IWSSDeserializer {
             }
         } else {
             if (v.getNodeType().equals(JsonNodeType.BOOLEAN)) {
-            	defaultValue = v.asBoolean();
+            	return v.asBoolean();
             } else if (v.getNodeType().equals(JsonNodeType.STRING)) {
                 String stringValue = v.textValue();
                 return Boolean.parseBoolean(stringValue);
