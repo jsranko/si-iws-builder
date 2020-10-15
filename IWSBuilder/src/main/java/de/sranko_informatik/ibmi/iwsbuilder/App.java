@@ -90,9 +90,9 @@ public class App {
 				try {
 					swagger = iws.getSwagger(service);
 					System.out.println(String.format("Swagger file: %s", swagger.getSwagger()));
-					swagger = iwss.updateSwagger(swagger);
-					System.out.println(String.format("Swagger file afet update: %s", swagger.getSwagger()));
-					if (!writeToJson(swagger, iws.getSwaggerLocation(service))) {
+					Swagger swaggerNew = iwss.updateSwagger(swagger);
+					System.out.println(String.format("Swagger file afet update: %s", swaggerNew.getSwagger()));
+					if (!writeToJson(swaggerNew, iws.getSwaggerLocation(service))) {
 						System.out.println(String.format("Swagger %s canot be writed", iws.getSwaggerLocation(service)));
 					}
 				} catch (IOException | InterruptedException e) {
