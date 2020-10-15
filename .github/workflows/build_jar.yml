@@ -4,8 +4,6 @@
 name: Build JAR
 
 on: push
-  release:
-    types: [created]
 
 jobs:
   build:
