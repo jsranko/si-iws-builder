@@ -18,3 +18,4 @@ jobs:
         ftp-server: ${{ secrets.SFTP_SERVER }}
         ftp-username: ${{ secrets.SFTP_USER }}
         ftp-password: ${{ secrets.SFTP_PWD }}
+        git-ftp-args: --insecure
