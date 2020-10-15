@@ -1,4 +1,7 @@
 {
 	"library": "SIIWSB",
-	"libraryDesc": "GitHub: si-iws-builder"
+	"libraryDesc": "GitHub: si-iws-builder",
+	"jarFile": {
+		"withDependencies":""
+	}
 }
