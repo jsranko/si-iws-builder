@@ -19,7 +19,6 @@
 		</developer>
 	</developers>
 
-
 	<distributionManagement>
 		<repository>
 			<id>github</id>
@@ -31,6 +30,7 @@
 	<properties>
 		<maven.compiler.source>1.7</maven.compiler.source>
 		<maven.compiler.target>1.7</maven.compiler.target>
+		<singleJarName>${project.name}-with-dependencies</singleJarName>
 	</properties>
 
 	<dependencies>
@@ -90,6 +90,7 @@
 						<descriptorRefs>
 							<descriptorRef>jar-with-dependencies</descriptorRef>
 						</descriptorRefs>
+						 <finalName>${singleJarName}</finalName>
 					</configuration>
 				</plugin>
 				<plugin>
