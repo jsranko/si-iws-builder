@@ -127,7 +127,7 @@ public class IWS {
 			command.add("-serviceType");
 			command.add(service.getServiceType());			
 		}
-		if (service.getServiceType() != null) {
+		if (service.getHost() != null ) {
 			command.add("-host");
 			command.add(service.getHost());			
 		}
