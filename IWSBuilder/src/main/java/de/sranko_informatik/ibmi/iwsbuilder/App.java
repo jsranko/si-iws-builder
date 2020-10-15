@@ -17,7 +17,7 @@ public class App {
 	public App() {
 	}
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws UnknownError, IOException, InterruptedException {
 		new App().parseArguments(args).build();
 	}
 
@@ -40,7 +40,7 @@ public class App {
 
 	}
 
-	private void build() {
+	private void build() throws UnknownError, IOException, InterruptedException {
 
 		String iwssLocation = new String(this.iwssLocation);
 
@@ -51,7 +51,6 @@ public class App {
 
 		IWS iws = new IWS(iwss.getServer());
 
-		try {
 			if (existServer(iws)) {
 
 				if (isServerRunning(iws)) {
@@ -98,10 +97,6 @@ public class App {
 				}
 
 			}
-			
-		} catch (UnknownError | IOException | InterruptedException e1) {
-			log("Unable to build iws server", e1);
-		}
 
 		// getServerProperties(iws);
 		return;
