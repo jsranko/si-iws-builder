@@ -157,10 +157,7 @@ public class IWS {
 		if (service.getTransportHeaders() != null) {
 			command.add("-transportHeaders");
 			command.add(String.valueOf(service.getTransportHeaders()));			
-		}
-		if (service.isUseParamNameAsElementName()) {
-			command.add("-useParamNameAsElementName");
-		}		
+		}	
 		if (this.server.isPrintErrorDetails()) {
 			command.add("-printErrorDetails");
 		}
