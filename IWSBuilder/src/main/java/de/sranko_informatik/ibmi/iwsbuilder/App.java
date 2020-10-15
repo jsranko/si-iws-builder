@@ -180,14 +180,14 @@ public class App {
 	}
 
 	private static void printUsage() {
-		log("");
-		log("Usage: [options] iwss");
-		log("");
-		log("Convert source into destination.");
-		log("  iwss           relative or absolute path to the directory containing iwss file");
-		log("");
-		log("Options:");
-		log("  -h, --help     display help information and exit");
+		System.out.println("");
+		System.out.println("Usage: [options] iwss");
+		System.out.println("");
+		System.out.println("Convert source into destination.");
+		System.out.println("  iwss           relative or absolute path to the directory containing iwss file");
+		System.out.println("");
+		System.out.println("Options:");
+		System.out.println("  -h, --help     display help information and exit");
 		System.exit(0);
 	}
 
@@ -201,8 +201,8 @@ public class App {
 	}
 
 	private static void printError(String message) {
-		log("");
-		log(message);
+		System.out.println("");
+		System.out.println(message);
 		printUsage();
 	}
 }
