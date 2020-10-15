@@ -47,13 +47,13 @@ public class IWSSDeserializer {
     		value = getString("userId", node, true, location, result);
     		iwsserver.setUserId(value);
     		
-    		boolean noHttp = getBoolean("noHttp", node, false, location, result, false);
+    		boolean noHttp = getBoolean("noHttp", node, false, location, result);
     		iwsserver.setNoHttp(noHttp);   		
     		
     		value = getString("version", node, false, location, result);
     		iwsserver.setVersion(value);
     		
-    		boolean printErrorDetails = getBoolean("printErrorDetails", node, false, location, result, false);
+    		boolean printErrorDetails = getBoolean("printErrorDetails", node, false, location, result);
     		iwsserver.setPrintErrorDetails(printErrorDetails);
     	}
 		return iwsserver;
@@ -91,7 +91,7 @@ public class IWSSDeserializer {
    		value = getString("userId", node, true, location, result);
    		service.setUserId(value);   
    		
-   		boolean bool = getBoolean("detectFieldLengths", node, true, location, result, false);
+   		boolean bool = getBoolean("detectFieldLengths", node, true, location, result);
    		service.setDetectFieldLengths(bool);    	
    		
    		value = getString("serviceType", node, true, location, result);
@@ -118,7 +118,7 @@ public class IWSSDeserializer {
    		value = getString("transportHeaders", node, true, location, result);
    		service.setTransportHeaders(value);
    		
-   		bool = getBoolean("useParamNameAsElementName", node, true, location, result, true);
+   		bool = getBoolean("useParamNameAsElementName", node, true, location, result);
    		service.setUseParamNameAsElementName(bool);  
    	}
    	
@@ -217,7 +217,8 @@ public class IWSSDeserializer {
         return value;
     } 
     
-    public Boolean getBoolean(String key, JsonNode node, boolean required, String location, ParseResult result, boolean defaultValue) {
+    public boolean getBoolean(String key, JsonNode node, boolean required, String location, ParseResult result) {
+    	boolean value = false;
         JsonNode v = node.get(key);
         if (node == null || v == null) {
             if (required) {
@@ -226,13 +227,13 @@ public class IWSSDeserializer {
             }
         } else {
             if (v.getNodeType().equals(JsonNodeType.BOOLEAN)) {
-            	return v.asBoolean();
+                value = v.asBoolean();
             } else if (v.getNodeType().equals(JsonNodeType.STRING)) {
                 String stringValue = v.textValue();
                 return Boolean.parseBoolean(stringValue);
             }
         }
-        return defaultValue;
+        return value;
     }  
     
     public ArrayNode getArray(String key, JsonNode node, boolean required, String location, ParseResult result) {
