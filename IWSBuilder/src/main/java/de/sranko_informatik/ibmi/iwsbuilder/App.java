@@ -89,7 +89,9 @@ public class App {
 				Swagger swagger;
 				try {
 					swagger = iws.getSwagger(service);
+					System.out.println(String.format("Swagger file: %s", swagger.getSwagger()));
 					swagger = iwss.updateSwagger(swagger);
+					System.out.println(String.format("Swagger file afet update: %s", swagger.getSwagger()));
 					if (!writeToJson(swagger, iws.getSwaggerLocation(service))) {
 						System.out.println(String.format("Swagger %s canot be writed", iws.getSwaggerLocation(service)));
 					}
