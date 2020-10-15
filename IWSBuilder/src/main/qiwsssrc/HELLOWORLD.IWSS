@@ -1,0 +1,42 @@
+{
+	"server": { 
+		"name": "$(LIBRARY)",
+		"port": 16789,
+		"userId": "CECUSER",
+		"noHttp": true,
+		"version": "*CURRENT",
+		"printErrorDetails":false 
+	},
+	"services": [
+		{
+			"name": "HelloWorld",
+			"programObject": "/QSYS.LIB/$(LIBRARY).LIB/HELLOWORLD.PGM",
+			"userId": "*SERVER",
+			"detectFieldLengths": true,
+			"serviceType": "*REST",
+			"host": "localhost",
+			"propertiesFile": "/tmp/HELLOWORLD.propertiesFile",
+			"libraryList": "$(LIBRARY)",
+			"libraryListPosition": "*FIRST",
+			"useParamNameAsElementName": false,
+			"properties": [
+				{
+					"HelloWorld.uri.path.template": "/sayHallo/"	,
+					"HelloWorld.http.request.method": "GET",
+					"HelloWorld.wrap.input.parameters": false,
+					"HelloWorld.wrap.output.parameter": false,
+					"HelloWorld.consumes": "*/*",
+					"HelloWorld.produces": "application/json",
+					"HelloWorld.Name.usage": "input",
+					"HelloWorld.Name.queryparam": "name",
+					"HelloWorld.Response.usage": "output",
+					"responses" : {
+						"200": {
+           					"description": "Successful operation XXXXXX"
+            			}
+            		}
+				}
+			]
+		}
+	]
+}
