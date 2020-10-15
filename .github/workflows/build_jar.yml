@@ -26,3 +26,5 @@ jobs:
 
     - name: Publish to GitHub Packages Apache Maven
       run: mvn --file IWSBuilder/pom.xml assembly:single deploy -s $GITHUB_WORKSPACE/settings.xml
+      env:
+        GITHUB_TOKEN: ${{ github.token }}
