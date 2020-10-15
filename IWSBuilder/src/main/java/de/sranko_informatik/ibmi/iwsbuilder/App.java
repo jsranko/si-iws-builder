@@ -84,16 +84,17 @@ public class App {
 					System.out.println(String.format("Service %s konnte nicht installiert werden, weil %s",
 							service.getName(), iws.getOutputAsString()));
 				}
-
+				
+				System.out.println("Swagger wird erweitert ...");
 				Swagger swagger;
 				try {
 					swagger = iws.getSwagger(service);
 					swagger = iwss.updateSwagger(swagger);
 					if (!writeToJson(swagger, iws.getSwaggerLocation(service))) {
-						log(String.format("Swagger %s canot be writed", iws.getSwaggerLocation(service)));
+						System.out.println(String.format("Swagger %s canot be writed", iws.getSwaggerLocation(service)));
 					}
 				} catch (IOException | InterruptedException e) {
-					log("Unable extend swagger file", e);
+					System.out.println(String.format("Unable extend swagger file: %s", e));
 				}
 
 			}
