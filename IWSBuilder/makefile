@@ -1,5 +1,6 @@
 LIBRARY:=$(shell jq '.library' -r ./config.json)
 LIBRARY_DESC:=$(shell jq '.libraryDesc' -r ./config.json)
+SHELL_CCSID:=$(shell jq '.pase_ccsid' -r ./config.json)
 DBGVIEW=*SOURCE
 DIR_SRC=src/main
 DIR_RPG=$(DIR_SRC)/qrpglesrc
@@ -14,7 +15,8 @@ EXT_CLP=CLLE
 EXT_CMD=CMD
 EXT_CPY=*RPGLE
 ROOT_DIR:=$(shell dirname $(realpath $(firstword $(MAKEFILE_LIST))))
-JAR_SINGLE=$(ROOT_DIR)/target/
+JAR_SINGLE=$(ROOT_DIR)/target/si-iws-builder-jar-with-dependencies.jar
+JAR_CLASSNAME=de.sranko_informatik.ibmi.iwsbuilder.App
 
 CLPS:=\
 	$(patsubst %.$(EXT_CLP),%.clps,$(wildcard $(DIR_CLP)/*.$(EXT_CLP)))
@@ -37,10 +39,10 @@ SRCFILES=\
 	$(SRCFILES_0:=.srcpf)
 	
 PGMS:=\
-	$(patsubst %.RPGLE,%.pgm,$(shell grep -il " main" $(DIR_RPG)/*.RPGLE))
+	$(patsubst %.RPGLE,%.pgm,$(shell grep -il " main" $(DIR_RPG)/*.SQLRPGLE))
 	
 SRVPGMS:=\
-	$(patsubst %.RPGLE,%.srvpgm,$(shell grep -il " nomain" $(DIR_RPG)/*.RPGLE))
+	$(patsubst %.RPGLE,%.srvpgm,$(shell grep -il " nomain" $(DIR_RPG)/*.SQLRPGLE))
 
 IWSS=\
 	$(patsubst %.$(EXT_IWSS),%.$(EXT_IWSSCONF),$(wildcard $(DIR_IWSS)/*.$(EXT_IWSS)))
@@ -48,16 +50,17 @@ IWSS=\
 
 # Ensure that intermediate files created by rules chains don't get
 # automatically deleted
-.PRECIOUS: %.clp %.lib
+.PRECIOUS: %.clp %.lib %.pgm %.command %.srcpf
 
 all: build	
 
 build: $(LIBRARY).lib \
 		create-srcfiles \
-		build-srvpgms \
 		build-pgms \
+		build-srvpgms \
 		build-clps \
-		build-cmds
+		build-cmds \
+		install-iwss
 
 build-srvpgms: $(SRVPGMS)
 
@@ -78,6 +81,7 @@ display-vars:
 	$(info    SRVPGMS is $(SRVPGMS)) 
 	$(info    PGMS is $(PGMS)) 
 	$(info    CPYS is $(CPYS)) 
+	$(info    IWSS is $(IWSS)) 
 
 %.lib: 
 	(system -Kp "CHKOBJ $* *LIB" || system -Kp "CRTLIB $* TEXT('$(LIBRARY_DESC)')") && \
@@ -107,12 +111,12 @@ display-vars:
 	
 %.module: %.RPGLE
 	$(call copy_to_srcpf,$(ROOT_DIR)/$<,$(LIBRARY),$(notdir $(DIR_RPG)),$(notdir $*))
-	system -Kp "CRTRPGMOD MODULE($(LIBRARY)/$(notdir $*)) SRCSTMF('$(ROOT_DIR)/$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES) INCDIR('$(ROOT_DIR/$(DIR_SRC))') STGMDL(*INHERIT) TGTCCSID(*JOB) OUTPUT(*NONE)"  && \
+	system -Kp "CRTRPGMOD MODULE($(LIBRARY)/$(notdir $*)) SRCSTMF('$(ROOT_DIR)/$<') DBGVIEW($(DBGVIEW)) REPLACE(*YES) INCDIR('$(ROOT_DIR)/$(DIR_SRC)') STGMDL(*INHERIT) TGTCCSID(*JOB) OUTPUT(*NONE)"  && \
 	touch $@	
 
 %.pgm: %.SQLRPGLE
 	$(call copy_to_srcpf,$(ROOT_DIR)/$<,$(LIBRARY),$(notdir $(DIR_RPG)),$(notdir $*))	
-	system "CRTSQLRPGI OBJ($(LIBRARY)/$(notdir $*)) SRCSTMF('$(ROOT_DIR)/$<') OBJTYPE(*PGM) DBGVIEW($(DBGVIEW)) RPGPPOPT(*LVL2) REPLACE(*YES) COMPILEOPT('INCDIR(''$(ROOT_DIR/$(DIR_SRC))'') TGTCCSID(*JOB) DFTACTGRP(*NO) ACTGRP(*NEW) OUTPUT(*NONE)')" && \
+	system "CRTSQLRPGI OBJ($(LIBRARY)/$(notdir $*)) SRCSTMF('$(ROOT_DIR)/$<') OBJTYPE(*PGM) DBGVIEW($(DBGVIEW)) RPGPPOPT(*LVL2) REPLACE(*YES) COMPILEOPT('INCDIR(''$(ROOT_DIR)/$(DIR_SRC)'') TGTCCSID(*JOB) DFTACTGRP(*NO) ACTGRP(*NEW) OUTPUT(*NONE)')" && \
 	touch $@
 
 %.pgm: %.RPGLE
@@ -124,6 +128,11 @@ display-vars:
 	$(call copy_to_srcpf,$(ROOT_DIR)/$<,$(LIBRARY),$(notdir $(DIR_RPG)),$(notdir $*))
 	system -Kp "CRTSQLRPGI OBJ($(LIBRARY)/$(notdir $*)) SRCSTMF('$(ROOT_DIR)/$<') OBJTYPE(*MODULE) RPGPPOPT(*LVL2) DBGVIEW($(DBGVIEW)) REPLACE(*YES) COMPILEOPT('INCDIR(''$(ROOT_DIR)'') OUTPUT(*NONE) TGTCCSID(*JOB) STGMDL(*INHERIT)')" && \
 	touch $@
+
+%.$(EXT_IWSSCONF): %.$(EXT_IWSS)
+	$(call substitute,$*.$(EXT_IWSS),$@)
+	java -cp $(JAR_SINGLE) $(JAR_CLASSNAME) ./$@ && \
+	$(call copy_to_srcpf,$(ROOT_DIR)/$@,$(LIBRARY),$(notdir $(DIR_IWSS)),$(notdir $*))
 
 clean: clean-srcfiles \
 		clean-clps \
@@ -159,5 +168,5 @@ endef
 define substitute
 	-rm $(2)
 	export QIBM_CCSID=$(SHELL_CCSID) && touch $(2) && \
-	sed 's/$$(LIBRARY)/$(LIBRARY)/g; s/$$(JAR_SINGLE)/$(JAR_SINGLE)/g; s/$$(ROOT_DIR)/$(subst /,\/,$(ROOT_DIR))/g; s/$$(DIR_JAVA)/$(subst /,\/,$(DIR_JAVA))/g' $(1) >> $(2)
+	sed 's/$$(LIBRARY)/$(LIBRARY)/g; s/$$(JAR_SINGLE)/$(subst /,\/,$(JAR_SINGLE))/g; s/$$(ROOT_DIR)/$(subst /,\/,$(ROOT_DIR))/g; s/$$(DIR_JAVA)/$(subst /,\/,$(DIR_JAVA))/g' $(1) >> $(2)
 endef	

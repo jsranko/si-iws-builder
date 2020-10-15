@@ -26,4 +26,5 @@ dcl-s tHttpHeaderEntry char(100) template;
 dcl-pr HelloWorld;
   Name like(tName) const;
   Response like(tJSON);
+  ResponseCode like(tHttpStatus);
 end-pr;

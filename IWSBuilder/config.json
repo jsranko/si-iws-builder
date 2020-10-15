@@ -1,7 +1,5 @@
 {
 	"library": "SIIWSB",
 	"libraryDesc": "GitHub: si-iws-builder",
-	"jarFile": {
-		"withDependencies":""
-	}
+	"pase_ccsid":1208
 }

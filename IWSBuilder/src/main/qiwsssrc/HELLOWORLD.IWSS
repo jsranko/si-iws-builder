@@ -1,24 +1,21 @@
 {
 	"server": { 
-		"name": "$(LIBRARY)",
+		"name": "$(LIBRARY)Ex",
 		"port": 16789,
 		"userId": "CECUSER",
-		"noHttp": true,
-		"version": "*CURRENT",
-		"printErrorDetails":false 
+		"noHttp": true
 	},
 	"services": [
 		{
 			"name": "HelloWorld",
 			"programObject": "/QSYS.LIB/$(LIBRARY).LIB/HELLOWORLD.PGM",
 			"userId": "*SERVER",
-			"detectFieldLengths": true,
 			"serviceType": "*REST",
-			"host": "localhost",
 			"propertiesFile": "/tmp/HELLOWORLD.propertiesFile",
 			"libraryList": "$(LIBRARY)",
 			"libraryListPosition": "*FIRST",
-			"useParamNameAsElementName": false,
+			"useParamNameAsElementName": true,
+			"printErrorDetails": true,
 			"properties": [
 				{
 					"HelloWorld.uri.path.template": "/sayHallo/"	,
@@ -27,12 +24,20 @@
 					"HelloWorld.wrap.output.parameter": false,
 					"HelloWorld.consumes": "*/*",
 					"HelloWorld.produces": "application/json",
+					"HelloWorld.response.code.parameter":"ResponseCode",
 					"HelloWorld.Name.usage": "input",
 					"HelloWorld.Name.queryparam": "name",
 					"HelloWorld.Response.usage": "output",
+					"HelloWorld.ResponseCode.usage": "output",
 					"responses" : {
 						"200": {
-           					"description": "Successful operation XXXXXX"
+           					"description": "Successful operation."
+            			},
+            			"400": {
+           					"description": "Sorry, this is not possible."
+            			},
+            			"500": {
+           					"description": "Sorry, the developer still has a construction site here."
             			}
             		}
 				}

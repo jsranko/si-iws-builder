@@ -40,8 +40,9 @@ install_yum_dependencies()
 build_project()
 
 {
+		git pull
 		cd ./IWSBuilder	
-		mvn clean assembly:single	
+		mvn clean verify assembly:single	
         gmake
 		cd ..
 }
