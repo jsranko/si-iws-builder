@@ -30,7 +30,7 @@ git clone https://github.com/jsranko/si-iws-builder.git
 ### Build project
 
 ```
-cd IWSBuilder
+cd si-iws-builder
 bash setup.sh
 ```
 
