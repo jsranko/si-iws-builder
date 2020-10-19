@@ -20,7 +20,7 @@ end-pi;
     return;
   endif;
 
-  exec sql set :REsponse = json_object(key 'greeting' value 'Hello ' concat trim(:name));
+  exec sql set :Response = json_object(key 'greeting' value 'Hello ' concat trim(:name));
   if sqlcode <> 0;
     ResponseCode = 500; // Internal Server Error
     return;

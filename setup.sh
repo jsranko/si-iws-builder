@@ -56,17 +56,17 @@ build_project()
 if exist_directory "${OPENSRC_DIR}";  then
     echo "5733-OPS product is installed ..."
 else 
-    echo "Please install 5733-OPS product first."
+    echo -e "\e[31m Please install 5733-OPS product first.\e[0m"
 fi
 
 # set path to OpenSource
-echo "setting path to OpenSource ..."
+echo -e "\e[32m setting path to OpenSource ...\e[0m"
 export PATH=${OPENSRC_DIR}:$PATH
 
-echo "installing dependencies for si-iws-builder ..."
-echo "installing yum dependencies ..."
+echo -e "\e[32m installing dependencies for si-iws-builder ...\e[0m"
+echo -e "\e[32m installing yum dependencies ...\e[0m"
 install_yum_dependencies
 
-echo "build si-iws-builder ..."
+echo -e "\e[32m build si-iws-builder ...\e[0m"
 build_project
 

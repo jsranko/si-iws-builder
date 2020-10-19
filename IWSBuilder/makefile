@@ -39,10 +39,10 @@ SRCFILES_0=\
 SRCFILES=\
 	$(SRCFILES_0:=.srcpf)
 	
-PGMS:=\
-	$(patsubst %.RPGLE,%.pgm,$(shell grep -il " main" $(DIR_RPG)/*.SQLRPGLE))
+PGMS=\
+	$(patsubst %.SQLRPGLE,%.pgm,$(shell grep -il " main" $(DIR_RPG)/*.SQLRPGLE))
 	
-SRVPGMS:=\
+SRVPGMS=\
 	$(patsubst %.RPGLE,%.srvpgm,$(shell grep -il " nomain" $(DIR_RPG)/*.SQLRPGLE))
 
 IWSS=\
@@ -51,14 +51,13 @@ IWSS=\
 
 # Ensure that intermediate files created by rules chains don't get
 # automatically deleted
-.PRECIOUS: %.clp %.lib %.pgm %.command %.srcpf
+.PRECIOUS: %.clps %.lib %.pgm %.command %.srcpf
 
 all: build	
 
 build: $(LIBRARY).lib \
 		create-srcfiles \
 		build-pgms \
-		build-srvpgms \
 		build-clps \
 		build-cmds \
 		install-iwss
@@ -88,13 +87,11 @@ display-vars:
 	(system -Kp "CHKOBJ $* *LIB" || system -Kp "CRTLIB $* TEXT('$(LIBRARY_DESC)')") && \
 	touch $@
 
-%.command: 
-	# @echo "$$@=$@ $$%=$% $$<=$< $$?=$? $$^=$^ $$+=$+ $$|=$| $$*=$*"	
+%.command: %.$(EXT_CMD)
 	$(call substitute,$*.$(EXT_CMD),$@)
 	system -Kp "CRTCMD CMD($(LIBRARY)/$(notdir $*)) PGM($(LIBRARY)/$(notdir $*)) SRCSTMF('$(ROOT_DIR)/$*.$(EXT_CMD)')"
 
-%.clps: 
-	# @echo "$$@=$@ $$%=$% $$<=$< $$?=$? $$^=$^ $$+=$+ $$|=$| $$*=$*"
+%.clps: %.$(EXT_CLP)
 	$(call substitute,$*.$(EXT_CLP),$@)  && \
 	system -Kp "CRTBNDCL PGM($(LIBRARY)/$(notdir $*)) SRCSTMF('$(ROOT_DIR)/$*.$(EXT_CLP)') DFTACTGRP(*NO) ACTGRP(*NEW) DBGVIEW($(DBGVIEW)) REPLACE(*YES) INCDIR('$(ROOT_DIR)/$(DIR_SRC)') OUTPUT(*NONE)" && \
 	$(call copy_to_srcpf,$(ROOT_DIR)/$@,$(LIBRARY),QCLLESRC,$(notdir $*)) || \
@@ -116,11 +113,13 @@ display-vars:
 	touch $@	
 
 %.pgm: %.SQLRPGLE
+	$(info    PGMS is $(PGMS)) 
 	$(call copy_to_srcpf,$(ROOT_DIR)/$<,$(LIBRARY),$(notdir $(DIR_RPG)),$(notdir $*))	
 	system "CRTSQLRPGI OBJ($(LIBRARY)/$(notdir $*)) SRCSTMF('$(ROOT_DIR)/$<') OBJTYPE(*PGM) DBGVIEW($(DBGVIEW)) RPGPPOPT(*LVL2) REPLACE(*YES) COMPILEOPT('INCDIR(''$(ROOT_DIR)/$(DIR_SRC)'') TGTCCSID(*JOB) DFTACTGRP(*NO) ACTGRP(*NEW) OUTPUT(*NONE)')" && \
 	touch $@
 
 %.pgm: %.RPGLE
+	$(info    PGMS is $(PGMS)) 
 	$(call copy_to_srcpf,$(ROOT_DIR)/$<,$(LIBRARY),$(notdir $(DIR_RPG)),$(notdir $*))
 	system -Kp "CRTBNDRPG PGM($(LIBRARY)/$(notdir $*)) SRCSTMF('$(ROOT_DIR)/$<') DFTACTGRP(*NO) ACTGRP(*NEW) DBGVIEW($(DBGVIEW)) REPLACE(*YES) INCDIR('$(ROOT_DIR)/$(DIR_SRC)') TGTCCSID(*JOB) OUTPUT(*NONE)" && \
 	touch $@
@@ -132,8 +131,8 @@ display-vars:
 
 %.$(EXT_IWSSCONF): %.$(EXT_IWSS)
 	$(call substitute,$*.$(EXT_IWSS),$@)
-	java $(JAVA_DEBUG) -cp $(JAR_SINGLE) $(JAR_CLASSNAME) ./$@ && \
-	# java -cp $(JAR_SINGLE) $(JAR_CLASSNAME) ./$@ && \
+	# java $(JAVA_DEBUG) -cp $(JAR_SINGLE) $(JAR_CLASSNAME) ./$@ && \
+	java -cp $(JAR_SINGLE) $(JAR_CLASSNAME) ./$@ && \
 	$(call copy_to_srcpf,$(ROOT_DIR)/$@,$(LIBRARY),$(notdir $(DIR_IWSS)),$(notdir $*))
 
 clean: clean-srcfiles \
