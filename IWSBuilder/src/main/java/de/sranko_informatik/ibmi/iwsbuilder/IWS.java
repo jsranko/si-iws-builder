@@ -209,9 +209,9 @@ public class IWS {
 
 	public String getSwaggerLocation(IWSSService service) throws IOException, InterruptedException {
 		
-		//String location = String.format("%s/%s/META-INF/swagger.json", getWebServicesInstallPath(), service.getName());
+		String location = String.format("%s/%s/META-INF/swagger.json", getWebServicesInstallPath(), service.getName());
 		
-		String location = new String("resources\\swagger.json");
+		//String location = new String("resources\\swagger.json");
 		
 		return location;
 	}	

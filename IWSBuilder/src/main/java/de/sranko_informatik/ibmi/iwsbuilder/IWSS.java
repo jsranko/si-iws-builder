@@ -104,11 +104,11 @@ public class IWSS {
 						if (count == 2) {
 							count = 0;
 							for (IWSSResponse entry : properties.getResponses()){
-								if (!httpCodes.contains(entry.getHttpCode())) {
+								//if (!httpCodes.contains(entry.getHttpCode())) {
 									Response resp = new Response();
 									resp.setDescription(entry.getDescription());
 									responses.put(entry.getHttpCode(), resp);
-								}
+								//}
 							}			
 							break;
 						}						
