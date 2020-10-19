@@ -83,6 +83,7 @@ public class App {
 				if (iws.installWebService(service) != 0) {
 					System.out.println(String.format("Service %s konnte nicht installiert werden, weil %s",
 							service.getName(), iws.getOutputAsString()));
+					break;
 				}
 				
 				System.out.println("Swagger wird erweitert ...");
