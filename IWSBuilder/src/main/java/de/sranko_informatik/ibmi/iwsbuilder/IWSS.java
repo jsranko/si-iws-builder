@@ -80,6 +80,7 @@ public class IWSS {
 	}
 	
 	private Operation updateOperation(String uri, Operation operation, String methode) {
+		int count = 0;
 		Map<String, Response> responses = operation.getResponses();
 		List<String> httpCodes = new ArrayList<String>();
 		
@@ -92,17 +93,24 @@ public class IWSS {
 		
 		for (IWSSService service : this.services){
 			if (service.getName().equals(operation.getOperationId())) {
-				for (IWSSProperties property : service.getProperties()){
-					if (property.getAttributes().containsValue(uri) && 
-					    property.getAttributes().containsValue(methode)) {
-						for (IWSSResponse entry : property.getResponses()){
-							if (!httpCodes.contains(entry.getHttpCode())) {
-								Response resp = new Response();
-								resp.setDescription(entry.getDescription());
-								responses.put(entry.getHttpCode(), resp);
-							}
-						}					
-					}
+				for (IWSSProperties properties : service.getProperties()){
+					for (Map.Entry attribute : properties.getAttributes().entrySet()){
+						if (attribute.getValue().toString().contains(uri)) {
+							count += 1;
+						}
+						if (attribute.getValue().toString().contains(methode)) {
+							count += 1;
+						}
+						if (count == 2) {
+							for (IWSSResponse entry : properties.getResponses()){
+								if (!httpCodes.contains(entry.getHttpCode())) {
+									Response resp = new Response();
+									resp.setDescription(entry.getDescription());
+									responses.put(entry.getHttpCode(), resp);
+								}
+							}					
+						}						
+					}	
 				}	
 			}
 	    }

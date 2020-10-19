@@ -1,43 +1,55 @@
 {
-  "swagger" : "2.0",
-  "info" : {
-    "description" : "APIs available for SIROUTER",
-    "version" : "1.0.0",
-    "title" : "SIROUTER APIs"
+  "swagger": "2.0",
+  "info": {
+    "title": "HelloWorld APIs",
+    "description": "APIs available for HelloWorld",
+    "version": "1.0.0"
   },
-  "host" : "p1309-pvm1.cecc.ihost.com:16797",
-  "basePath" : "/web/services/SIROUTER",
-  "tags" : [ {
-    "name" : "SIROUTER APIs",
-    "description" : "APIs available for SIROUTER"
-  } ],
-  "schemes" : [ "http" ],
-  "paths" : {
-    "/null" : {
-      "get" : {
-        "tags" : [ "SIROUTER APIs" ],
-        "operationId" : "SIROUTER",
-        "consumes" : [ "application/json" ],
-        "produces" : [ "application/json" ],
-        "parameters" : [ {
-          "in" : "body",
-          "name" : "body",
-          "required" : true,
-          "schema" : {
-            "type" : "string",
-            "maxLength" : 8000000
+  "host": "129.40.58.209:16789",
+  "schemes": [ "http" ],
+  "basePath": "/web/services/HelloWorld",
+  "tags": [
+    {
+      "name": "HelloWorld APIs",
+      "description": "APIs available for HelloWorld"
+    }
+  ],
+  "definitions": {},
+  "paths": {
+    "/sayHallo/": {
+      "get": {
+        "tags": [
+          "HelloWorld APIs"
+        ],
+        "operationId": "HelloWorld",
+        "consumes": [
+          "*/*"
+        ],
+        "produces": [
+          "application/json"
+        ],
+        "parameters": [
+          {
+            "name": "name",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "maxLength": 50
           }
-        } ],
-        "responses" : {
-          "200" : {
-            "description" : "Successful operation XXXXXX"
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "schema": {
+              "type": "string",
+              "maxLength": 1024
+            }
           },
-          "400" : {
-            "description" : "yyyyyyy"
+          "500": {
+            "description": "Unexpected exception"
           }
         }
       }
     }
-  },
-  "definitions" : { }
+  }
 }
