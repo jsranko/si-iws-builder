@@ -1,6 +1,7 @@
 Pgm Parm(&iwssstmf)
 Dcl &iwssstmf Type(*Char) Len(256)
-Dcl &jarfile Type(*Char) Len(256)
+Dcl &jarfile Type(*Char) Len(256) +
+    Value($(JAR_SINGLE))
 
 QSYS/RUNJVA CLASS(de.sranko_informatik.ibmi.iwsbuilder.App) +
             PARM(&iwssstmf) +
