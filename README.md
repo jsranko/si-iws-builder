@@ -21,13 +21,6 @@ Opensource package **git** must be installed. For installation execute the follo
 yum install git
 ```
 
-### Install Maven
-
-Opensource package **Apache Maven** must be installed. For installation execute the following command:
-```
-yum install maven
-```
-
 ### Clone project
 A local copy of the project must be created:
 ```
@@ -37,21 +30,7 @@ git clone https://github.com/jsranko/si-iws-builder.git
 ### Build project
 
 ```
-cd si-iws-builder/IWSBuilder
-```
-Create a JAR file from project:
-```
-mvn clean verify assembly:single
-```
-After some time the following should be visible in the console
-```
-[INFO] Building jar: /home/CECUSER/si-iws-builder/IWSBuilder/target/si-iws-builder-0.0.1-SNAPSHOT-jar-with-dependencies.jar
-[INFO] ------------------------------------------------------------------------
-[INFO] BUILD SUCCESS
-[INFO] ------------------------------------------------------------------------
-[INFO] Total time:  01:28 min
-[INFO] Finished at: 2020-10-08T05:08:59-04:00
-[INFO] ------------------------------------------------------------------------
+bash setup.sh
 ```
 
 ## Run the App
