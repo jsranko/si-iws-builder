@@ -61,7 +61,7 @@ public class App {
 					}
 				}
 
-				System.out.println(String.format("Server %s wird gelöscht ...", iwss.getServer().getName()));
+				System.out.println(String.format("Server %s wird gel??t ...", iwss.getServer().getName()));
 				if (iws.deleteWebServicesServer() != 0) {
 					throw new UnknownError(iws.getOutputAsString());
 				}

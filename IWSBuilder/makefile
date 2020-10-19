@@ -2,6 +2,7 @@ LIBRARY:=$(shell jq '.library' -r ./config.json)
 LIBRARY_DESC:=$(shell jq '.libraryDesc' -r ./config.json)
 SHELL_CCSID:=$(shell jq '.pase_ccsid' -r ./config.json)
 DBGVIEW=*SOURCE
+JAVA_DEBUG=-Xdebug -Xrunjdwp:transport=dt_socket,address=8998,server=y 
 DIR_SRC=src/main
 DIR_RPG=$(DIR_SRC)/qrpglesrc
 DIR_BND=$(DIR_SRC)/qsrvsrc
@@ -131,7 +132,8 @@ display-vars:
 
 %.$(EXT_IWSSCONF): %.$(EXT_IWSS)
 	$(call substitute,$*.$(EXT_IWSS),$@)
-	java -cp $(JAR_SINGLE) $(JAR_CLASSNAME) ./$@ && \
+	java $(JAVA_DEBUG) -cp $(JAR_SINGLE) $(JAR_CLASSNAME) ./$@ && \
+	# java -cp $(JAR_SINGLE) $(JAR_CLASSNAME) ./$@ && \
 	$(call copy_to_srcpf,$(ROOT_DIR)/$@,$(LIBRARY),$(notdir $(DIR_IWSS)),$(notdir $*))
 
 clean: clean-srcfiles \
