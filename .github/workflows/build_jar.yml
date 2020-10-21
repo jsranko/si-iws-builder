@@ -22,7 +22,7 @@ jobs:
     - name: Display Enviroment Variable
       run: env
     - name: Build with Maven
-      run: mvn -B package --file IWSBuilder/pom.xml
+      run: mvn -B package assembly:single	--file IWSBuilder/pom.xml
 
     - name: Publish to GitHub Packages Apache Maven
       run: mvn --file IWSBuilder/pom.xml assembly:single deploy -s $GITHUB_WORKSPACE/settings.xml
